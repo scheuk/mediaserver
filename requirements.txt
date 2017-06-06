@@ -1,0 +1,4 @@
+# This are all the python packages needed to run and test our ansible scripts
+ansible
+molecule
+python-vagrant
