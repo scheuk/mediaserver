@@ -44,8 +44,77 @@
     docker_container:
       name: muximux
       state: started
+      pull: true
+      restart_policy: unless-stopped
       image: linuxserver/muximux
       ports:
-       - "80:80"
+        - "80:80"
       volumes:
-       - "muximux-config:/config"
+        - "muximux-config:/config"
+
+  - name: "Launch sonarr container"
+    docker_container:
+      name: sonarr
+      state: started
+      pull: true
+      restart_policy: unless-stopped
+      image: linuxserver/sonarr
+      ports:
+        - "8989:8989"
+      env:
+        PUID: 110
+        PGID: 117
+      volumes:
+        - "sonarr-config:/config"
+        - "/etc/localtime:/etc/localtime:ro"
+        - "/tank1/Media/TV\ Shows:/tv"
+        - "/tank1/Media/downloads:/downloads"
+
+  - name: "Launch jackett container"
+    docker_container:
+      name: jackett
+      state: started
+      pull: true
+      restart_policy: unless-stopped
+      image: linuxserver/jackett
+      ports:
+        - "9117:9117"
+      env:
+        PUID: 110
+        PGID: 117
+      volumes:
+        - "jackett-config:/config"
+        - "jackett-downloads:/downloads"
+        - "/etc/localtime:/etc/localtime:ro"
+
+  - name: "Launch deluge container"
+    docker_container:
+      name: deluge
+      state: started
+      pull: true
+      restart_policy: unless-stopped
+      image: linuxserver/deluge
+      network_mode: host
+      env:
+        PUID: 110
+        PGID: 117
+      volumes:
+        - "deluge-config:/config"
+        - "/tank1/Media/downloads:/downloads"
+
+  - name: "Launch plex container"
+    docker_container:
+      name: plex
+      state: started
+      pull: true
+      restart_policy: unless-stopped
+      image: linuxserver/plex
+      network_mode: host
+      env:
+        PUID: 110
+        PGID: 117
+        VERSION: public
+        TZ: America/New_York
+      volumes:
+        - "/var/lib/plexmediaserver:/config"
+        - "/tank1/Media:/tank1/Media"
