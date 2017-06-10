@@ -70,6 +70,24 @@
         - "/tank1/Media/TV\ Shows:/tv"
         - "/tank1/Media/downloads:/downloads"
 
+  - name: "Launch radarr container"
+    docker_container:
+      name: radarr
+      state: started
+      pull: true
+      restart_policy: unless-stopped
+      image: linuxserver/radarr
+      ports:
+        - "7878:7878"
+      env:
+        PUID: 110
+        PGID: 117
+      volumes:
+        - "radarr-config:/config"
+        - "/etc/localtime:/etc/localtime:ro"
+        - "/tank1/Media/Movies:/movies"
+        - "/tank1/Media/downloads:/downloads"
+
   - name: "Launch jackett container"
     docker_container:
       name: jackett
