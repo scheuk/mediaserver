@@ -164,7 +164,7 @@
 
   - name: "Launch unifi controller container"
     docker_container:
-      name: deluge
+      name: unifi
       state: started
       pull: true
       restart_policy: unless-stopped
@@ -177,9 +177,9 @@
         - "8443:8443"
         - "8843:8843"
         - "8880:8880"
+        - "6789:6789"
       env:
         PUID: 110
         PGID: 117
       volumes:
         - "unifi-config:/config"
-        
