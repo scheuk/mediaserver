@@ -40,17 +40,20 @@
       state: latest
       update_cache: yes
 
-  - name: "Launch muximux container"
+  - name: "Launch heimdall container"
     docker_container:
-      name: muximux
+      name: heimdall
       state: started
       pull: true
       restart_policy: unless-stopped
-      image: linuxserver/muximux
+      image: linuxserver/heimdall
       ports:
         - "80:80"
+        - "443:443"
+      env:
+        TZ: America/New_York
       volumes:
-        - "muximux-config:/config"
+        - "heimdall-config:/config"
 
   - name: "Launch sonarr container"
     docker_container:
@@ -183,3 +186,34 @@
         PGID: 117
       volumes:
         - "unifi-config:/config"
+
+# still need to configure:
+# docker network create -d macvlan --subnet=192.168.1.0/24 --ip-range=192.168.1.16/28 --gateway=192.168.1.1
+# --ipv6 --subnet=2001:470:1f07:532::/64 --gateway=2001:470:1f07:532::1 -o parent=eno1 macnet
+#  - name: Create a network
+#    docker_network:
+#      name: macnet
+#      driver: macvlan
+
+  - name: "Launch Pi-Hole container"
+    docker_container:
+      name: pihole
+      hostname: pi.hole
+      state: started
+      pull: true
+      restart_policy: unless-stopped
+      image: diginc/pi-hole
+      purge_networks: yes
+      networks:
+        - name: macnet
+          ipv4_address: 192.168.1.5
+          ipv6_address: 2001:470:1f07:532::5
+      env:
+        TZ: America/New_York
+        ServerIP: 192.168.1.5
+        ServerIPv6: 2001:470:1f07:532::5
+        WEBPASSWORD: password
+        INTERFACE: eth0
+      volumes:
+        - "pihole-config:/etc/pihole/"
+        - "pihole-dnsmasqd:/etc/dnsmasq.d/"
