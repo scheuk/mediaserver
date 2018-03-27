@@ -98,6 +98,9 @@
       pull: true
       restart_policy: unless-stopped
       image: linuxserver/jackett
+      networks:
+        - name: bridge-ipv4
+      purge_networks: yes
       ports:
         - "9117:9117"
       env:
@@ -194,6 +197,9 @@
 #    docker_network:
 #      name: macnet
 #      driver: macvlan
+
+# created second ipv4 only bridge network
+# docker network create -d bridge --subnet 172.18.0.0/17 --gateway 172.18.0.1 -o "com.docker.network.bridge.name"="docker1" -o "com.docker.network.bridge.enable_ip_masquerade"="true" -o "com.docker.network.bridge.enable_icc"="true" -o "com.docker.network.bridge.host_binding_ipv4"="0.0.0.0" -o "com.docker.network.driver.mtu"="1500" bridge-ipv4
 
   - name: "Launch Pi-Hole container"
     docker_container:
