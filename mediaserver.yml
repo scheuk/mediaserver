@@ -70,8 +70,8 @@
       volumes:
         - "sonarr-config:/config"
         - "/etc/localtime:/etc/localtime:ro"
-        - "/tank1/Media/TV\ Shows:/tv"
-        - "/tank1/Media/downloads:/downloads"
+        - "/tank2/media/TV\ Shows:/tv"
+        - "/tank2/media/downloads:/downloads"
 
   - name: "Launch radarr container"
     docker_container:
@@ -88,8 +88,8 @@
       volumes:
         - "radarr-config:/config"
         - "/etc/localtime:/etc/localtime:ro"
-        - "/tank1/Media/Movies:/movies"
-        - "/tank1/Media/downloads:/downloads"
+        - "/tank2/media/Movies:/movies"
+        - "/tank2/media/downloads:/downloads"
 
   - name: "Launch jackett container"
     docker_container:
@@ -124,7 +124,7 @@
         PGID: 117
       volumes:
         - "deluge-config:/config"
-        - "/tank1/Media/downloads:/downloads"
+        - "/tank2/media/downloads:/downloads"
 
   - name: "Launch plex container"
     docker_container:
@@ -141,7 +141,24 @@
         TZ: America/New_York
       volumes:
         - "/var/lib/plexmediaserver:/config"
-        - "/tank1/Media:/tank1/Media"
+        - "/tank2/media:/tank1/Media"
+
+  - name: "Launch tautulli container"
+    docker_container:
+      name: tautulli
+      state: started
+      pull: true
+      restart_policy: unless-stopped
+      image: linuxserver/tautulli
+      ports:
+        - "8181:8181"
+      env:
+        PUID: 110
+        PGID: 117
+        TZ: America/New_York
+      volumes:
+        - "tautulli-config:/config"
+        - "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Logs:/logs"
 
   - name: "Launch prometheus container"
     docker_container:
