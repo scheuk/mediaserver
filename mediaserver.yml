@@ -2,25 +2,28 @@
 - hosts: all
   remote_user: scheuk
   become: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
 
   tasks:
   # run once to install python for ansible
   #- name: "Install python2 and python-simplejson"
   #  raw: "apt-get update && apt-get install -y python2.7 python-simplejson"
+  # add universe repository
+  # add-apt-repository "deb http://us.archive.ubuntu.com/ubuntu/ bionic universe"
+  # add-apt-repository "deb http://us.archive.ubuntu.com/ubuntu/ bionic-updates universe"
+
 
   - name: Install packages
     package:
       name: "{{ item }}"
       state: present
     with_items:
-      - python-setuptools
+      - python3-pip
       - apt-transport-https
       - ca-certificates
       - curl
       - software-properties-common
-
-  - name: Install pip
-    easy_install: name=pip
 
   - name: Install docker python library
     pip: name=docker state=latest
@@ -225,7 +228,7 @@
       state: started
       pull: true
       restart_policy: unless-stopped
-      image: diginc/pi-hole
+      image: pihole/pihole
       purge_networks: yes
       networks:
         - name: macnet
