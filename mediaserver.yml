@@ -163,6 +163,22 @@
         - "tautulli-config:/config"
         - "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Logs:/logs"
 
+  - name: "Launch Ombi container"
+    docker_container:
+      name: ombi
+      state: started
+      pull: true
+      restart_policy: unless-stopped
+      image: linuxserver/ombi
+      ports:
+        - "3579:3579"
+      env:
+        PUID: 110
+        PGID: 117
+        TZ: America/New_York
+      volumes:
+        - "ombi-config:/config"
+
   - name: "Launch prometheus container"
     docker_container:
       name: prometheus
