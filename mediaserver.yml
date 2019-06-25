@@ -114,10 +114,10 @@
         - "jackett-downloads:/downloads"
         - "/etc/localtime:/etc/localtime:ro"
 
-  - name: "Launch deluge container"
+  - name: "Stop and remove deluge container"
     docker_container:
       name: deluge
-      state: started
+      state: absent
       pull: true
       restart_policy: unless-stopped
       image: linuxserver/deluge
@@ -127,6 +127,25 @@
         PGID: 117
       volumes:
         - "deluge-config:/config"
+        - "/tank2/media/downloads:/downloads"
+
+  - name: "Launch transmission container"
+    docker_container:
+      name: transmission
+      state: started
+      pull: true
+      restart_policy: unless-stopped
+      image: linuxserver/transmission
+      ports:
+        - "9091:9091"
+        - "51413:51413"
+        - "51413:51413/udp"
+      env:
+        PUID: 110
+        PGID: 117
+        TZ: America/New_York
+      volumes:
+        - "transmission-config:/config"
         - "/tank2/media/downloads:/downloads"
 
   - name: "Launch plex container"
