@@ -68,8 +68,8 @@
       ports:
         - "8989:8989"
       env:
-        PUID: 110
-        PGID: 117
+        PUID: '110'
+        PGID: '117'
       volumes:
         - "sonarr-config:/config"
         - "/etc/localtime:/etc/localtime:ro"
@@ -86,8 +86,8 @@
       ports:
         - "7878:7878"
       env:
-        PUID: 110
-        PGID: 117
+        PUID: '110'
+        PGID: '117'
       volumes:
         - "radarr-config:/config"
         - "/etc/localtime:/etc/localtime:ro"
@@ -107,8 +107,8 @@
       ports:
         - "9117:9117"
       env:
-        PUID: 110
-        PGID: 117
+        PUID: '110'
+        PGID: '117'
       volumes:
         - "jackett-config:/config"
         - "jackett-downloads:/downloads"
@@ -123,8 +123,8 @@
       image: linuxserver/deluge
       network_mode: host
       env:
-        PUID: 110
-        PGID: 117
+        PUID: '110'
+        PGID: '117'
       volumes:
         - "deluge-config:/config"
         - "/tank2/media/downloads:/downloads"
@@ -141,8 +141,8 @@
         - "51413:51413"
         - "51413:51413/udp"
       env:
-        PUID: 110
-        PGID: 117
+        PUID: '110'
+        PGID: '117'
         TZ: America/New_York
       volumes:
         - "transmission-config:/config"
@@ -157,8 +157,8 @@
       image: linuxserver/plex
       network_mode: host
       env:
-        PUID: 110
-        PGID: 117
+        PUID: '110'
+        PGID: '117'
         VERSION: public
         TZ: America/New_York
       volumes:
@@ -175,8 +175,8 @@
       ports:
         - "8181:8181"
       env:
-        PUID: 110
-        PGID: 117
+        PUID: '110'
+        PGID: '117'
         TZ: America/New_York
       volumes:
         - "tautulli-config:/config"
@@ -192,8 +192,8 @@
       ports:
         - "3579:3579"
       env:
-        PUID: 110
-        PGID: 117
+        PUID: '110'
+        PGID: '117'
         TZ: America/New_York
       volumes:
         - "ombi-config:/config"
@@ -240,8 +240,8 @@
         - "8880:8880"
         - "6789:6789"
       env:
-        PUID: 110
-        PGID: 117
+        PUID: '110'
+        PGID: '117'
       volumes:
         - "unifi-config:/config"
 
@@ -290,8 +290,8 @@
         - "8096:8096"
         - "8920:8920"
       env:
-        UID: 110
-        GID: 117
+        UID: '110'
+        GID: '117'
       volumes:
         - "emby-config:/config"
         - "/tank2/media:/tank2/media"
