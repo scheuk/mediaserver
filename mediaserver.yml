@@ -229,7 +229,7 @@
       state: started
       pull: true
       restart_policy: unless-stopped
-      image: linuxserver/unifi
+      image: linuxserver/unifi-controller
       ports:
         - "3478:3478/udp"
         - "10001:10001/udp"
